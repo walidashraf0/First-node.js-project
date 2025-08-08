@@ -3,11 +3,23 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+
 const MyData = require("./models/mydataSchema");
 // Routing
 app.get("/", (req, res) => {
-  res.sendFile("./views/home.html", { root: __dirname });
+  MyData.find()
+    .then((result) => {
+      res.render("home", {
+        myTitle: "Home Page",
+        arr: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
+
 app.get("/index.html", (req, res) => {
   res.sendFile("./views/index.html", { root: __dirname });
 });
