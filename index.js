@@ -10,12 +10,11 @@ app.set("view engine", "ejs");
 const path = require("path");
 const livereload = require("livereload");
 const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, 'public'));
- 
- 
+liveReloadServer.watch(path.join(__dirname, "public"));
+
 const connectLivereload = require("connect-livereload");
 app.use(connectLivereload());
- 
+
 liveReloadServer.server.once("connection", () => {
   setTimeout(() => {
     liveReloadServer.refresh("/");
@@ -33,6 +32,15 @@ app.get("/", (req, res) => {
 
 app.get("/user/add.html", (req, res) => {
   res.render("user/add", { root: __dirname });
+});
+app.get("/user/edit.html", (req, res) => {
+  res.render("user/edit", { root: __dirname });
+});
+app.get("/user/view.html", (req, res) => {
+  res.render("user/view", { root: __dirname });
+});
+app.get("/user/search.html", (req, res) => {
+  res.render("user/search", { root: __dirname });
 });
 
 mongoose
