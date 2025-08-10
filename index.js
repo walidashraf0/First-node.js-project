@@ -3,25 +3,36 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.set("view engine", "ejs");
+
+// Auto Refresh
+const path = require("path");
+const livereload = require("livereload");
+const liveReloadServer = livereload.createServer();
+liveReloadServer.watch(path.join(__dirname, 'public'));
+ 
+ 
+const connectLivereload = require("connect-livereload");
+app.use(connectLivereload());
+ 
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
 
 const MyData = require("./models/mydataSchema");
 // Routing
 app.get("/", (req, res) => {
-  MyData.find()
-    .then((result) => {
-      res.render("home", {
-        myTitle: "Home Page",
-        arr: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  res.render("index", {
+    myTitle: "Home Page",
+    // arr: result,
+  });
 });
 
-app.get("/index.html", (req, res) => {
-  res.sendFile("./views/index.html", { root: __dirname });
+app.get("/user/add.html", (req, res) => {
+  res.render("user/add", { root: __dirname });
 });
 
 mongoose
@@ -37,15 +48,15 @@ mongoose
     console.log(err);
   });
 
-app.post("/", (req, res) => {
-  console.log(req.body);
-  const myData = new MyData(req.body);
-  myData
-    .save()
-    .then(() => {
-      res.redirect("/index.html");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+// app.post("/", (req, res) => {
+//   console.log(req.body);
+//   const myData = new MyData(req.body);
+//   myData
+//     .save()
+//     .then(() => {
+//       res.redirect("/index.html");
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
