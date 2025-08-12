@@ -21,7 +21,6 @@ liveReloadServer.server.once("connection", () => {
   }, 100);
 });
 
-const MyData = require("./models/mydataSchema");
 // Routing
 app.get("/", (req, res) => {
   res.render("index", {
@@ -29,7 +28,7 @@ app.get("/", (req, res) => {
     // arr: result,
   });
 });
-
+// GET Request
 app.get("/user/add.html", (req, res) => {
   res.render("user/add", { root: __dirname });
 });
@@ -56,15 +55,17 @@ mongoose
     console.log(err);
   });
 
-// app.post("/", (req, res) => {
-//   console.log(req.body);
-//   const myData = new MyData(req.body);
-//   myData
-//     .save()
-//     .then(() => {
-//       res.redirect("/index.html");
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
+// POST Request
+const MyData = require("./models/customerSchema");
+app.post("/user/add.html", (req, res) => {
+  console.log(req.body);
+  const myData = new MyData(req.body);
+  myData
+    .save()
+    .then(() => {
+      res.redirect("/user/add.html");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
