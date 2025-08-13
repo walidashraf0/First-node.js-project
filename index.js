@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+const User = require("./models/customerSchema");
 
 // Auto Refresh
 const path = require("path");
@@ -23,11 +24,22 @@ liveReloadServer.server.once("connection", () => {
 
 // Routing
 app.get("/", (req, res) => {
-  res.render("index", {
-    myTitle: "Home Page",
-    // arr: result,
-  });
+  User.find()
+    .then((result) => {
+      res.render("index", {
+        myTitle: "Home Page",
+        users: result
+      });
+    })
+    .catch((err) => {
+      console.error("Error fetching users from MongoDB:", err);
+      res.render("index", {
+        myTitle: "Home Page",
+        users: []
+      });
+    });
 });
+
 // GET Request
 app.get("/user/add.html", (req, res) => {
   res.render("user/add", { root: __dirname });
@@ -41,6 +53,8 @@ app.get("/user/view.html", (req, res) => {
 app.get("/user/search.html", (req, res) => {
   res.render("user/search", { root: __dirname });
 });
+
+
 
 mongoose
   .connect(
@@ -56,16 +70,20 @@ mongoose
   });
 
 // POST Request
-const MyData = require("./models/customerSchema");
 app.post("/user/add.html", (req, res) => {
   console.log(req.body);
-  const myData = new MyData(req.body);
+  const myData = new User(req.body);
   myData
     .save()
     .then(() => {
-      res.redirect("/user/add.html");
+      res.redirect("/");
     })
     .catch((err) => {
       console.log(err);
     });
 });
+
+
+// app.get("/index.html", (req, res) => {
+//   res.sendFile("./views/index.html", { root: __dirname });
+// });
