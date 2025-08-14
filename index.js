@@ -4,6 +4,7 @@ const port = 3000;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+var moment = require("moment");
 app.set("view engine", "ejs");
 const User = require("./models/customerSchema");
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
       res.render("index", {
         myTitle: "Home Page",
         users: result,
+        moment: moment,
       });
     })
     .catch((err) => {
@@ -40,11 +42,25 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/user/add.html", (req, res) => {
+  res.render("user/add", { root: __dirname });
+});
+
+// GET Request
+app.get("/user/edit.html", (req, res) => {
+  res.render("user/edit", { root: __dirname });
+});
+
+app.get("/user/search.html", (req, res) => {
+  res.render("user/search", { root: __dirname });
+});
+
 app.get("/user/:id", (req, res) => {
   User.findById(req.params.id)
     .then((result) => {
       res.render("user/view", {
         user: result,
+        moment: moment,
       });
     })
     .catch((err) => {
@@ -52,21 +68,6 @@ app.get("/user/:id", (req, res) => {
     });
   // res.render("user/view", { root: __dirname });
 });
-
-// GET Request
-app.get("/user/add.html", (req, res) => {
-  res.render("user/add", { root: __dirname });
-});
-app.get("/user/edit.html", (req, res) => {
-  res.render("user/edit", { root: __dirname });
-});
-app.get("/user/view.html", (req, res) => {
-  res.render("user/view", { root: __dirname });
-});
-app.get("/user/search.html", (req, res) => {
-  res.render("user/search", { root: __dirname });
-});
-
 mongoose
   .connect(
     "mongodb+srv://walidashraf050:UCNCUQIhZmJygbWI@cluster0.chxe8xl.mongodb.net/testdb?retryWrites=true&w=majority&appName=Cluster0"

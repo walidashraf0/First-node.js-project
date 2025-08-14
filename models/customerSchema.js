@@ -9,7 +9,7 @@ const userSchema = new Schema({
     age: String,
     phoneNumber: String,
     country: String,
-});
+}, { timestamps: true });
 // Build Model
 const MyData = mongoose.model("CustomerData", userSchema);
 module.exports = MyData;
