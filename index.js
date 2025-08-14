@@ -28,16 +28,29 @@ app.get("/", (req, res) => {
     .then((result) => {
       res.render("index", {
         myTitle: "Home Page",
-        users: result
+        users: result,
       });
     })
     .catch((err) => {
       console.error("Error fetching users from MongoDB:", err);
       res.render("index", {
         myTitle: "Home Page",
-        users: []
+        users: [],
       });
     });
+});
+
+app.get("/user/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((result) => {
+      res.render("user/view", {
+        user: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // res.render("user/view", { root: __dirname });
 });
 
 // GET Request
@@ -53,8 +66,6 @@ app.get("/user/view.html", (req, res) => {
 app.get("/user/search.html", (req, res) => {
   res.render("user/search", { root: __dirname });
 });
-
-
 
 mongoose
   .connect(
@@ -82,7 +93,6 @@ app.post("/user/add.html", (req, res) => {
       console.log(err);
     });
 });
-
 
 // app.get("/index.html", (req, res) => {
 //   res.sendFile("./views/index.html", { root: __dirname });
