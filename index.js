@@ -304,9 +304,7 @@ mongoose
 // POST Request
 app.post("/user/add.html", (req, res) => {
   console.log(req.body);
-  const myData = new User(req.body);
-  myData
-    .save()
+  User.create(req.body)
     .then(() => {
       res.redirect("/");
     })
@@ -320,7 +318,6 @@ app.delete("/edit/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((result) => {
       res.redirect("/");
-      console.log(result);
     })
     .catch((err) => {
       console.log(err);
@@ -338,3 +335,15 @@ app.delete("/edit/:id", (req, res) => {
 //       console.log(err);
 //     });
 // });
+
+// PUT REQUEST
+app.put("/edit/:id", (req, res) => {
+  console.log(req.body);
+  User.findByIdAndUpdate(req.params.id, req.body)
+    .then((result) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});

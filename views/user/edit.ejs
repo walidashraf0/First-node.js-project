@@ -68,7 +68,11 @@
           </p>
         </nav>
 
-        <form class="mx-0 row gx-3 gy-4 mt-2">
+        <form
+          action="/edit/<%= user._id %>?_method=PUT"
+          method="post"
+          class="mx-0 row gx-3 gy-4 mt-2"
+        >
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
@@ -76,6 +80,8 @@
               type="text"
               class="form-control"
               id="inputfirstName4"
+              name="firstName"
+              value="<%= user.firstName %> "
             />
           </div>
           <div class="col-md-6">
@@ -85,6 +91,8 @@
               type="text"
               class="form-control"
               id="inputlastName4"
+              name="lastName"
+              value="<%= user.lastName%> "
             />
           </div>
 
@@ -95,6 +103,8 @@
               type="email"
               class="form-control"
               id="inputemail4"
+              name="email"
+              value="<%= user.email %> "
             />
           </div>
           <div class="col-md-6">
@@ -104,6 +114,8 @@
               type="number"
               class="form-control"
               id="inputtele4"
+              name="phoneNumber"
+              value="<%= user.phoneNumber %>"
             />
           </div>
 
@@ -111,10 +123,12 @@
             <div class="col-md-6">
               <label for="inputage4" class="form-label">Age:</label>
               <input
-                placeholder="Your Age: <%= user.age %> "
+                placeholder="Your Age: <%= user.age %>"
                 type="number"
                 class="form-control"
                 id="inputage4"
+                name="age"
+                value="<%= user.age %>"
               />
             </div>
           </div>
@@ -122,11 +136,11 @@
           <div>
             <div class="col-md-6">
               <label for="inputCountry" class="form-label">Country:</label>
-              <select id="inputCountry" class="form-select">
-                <option selected hidden disabled><%= user.country %></option>
+              <select id="inputCountry" class="form-select" name="country">
+                <option hidden disabled><%= user.country %></option>
 
                 <% countries.map((country) => { %>
-                <option><%= country %></option>
+                <option <%= country === user.country ? "selected" : null %> ><%= country %></option>
                 <% }) %>
               </select>
             </div>
@@ -135,10 +149,10 @@
           <div>
             <div class="col-md-6">
               <label for="inputGender" class="form-label">Gender:</label>
-              <select id="inputGender" class="form-select">
+              <select id="inputGender" class="form-select" name="gender">
                 <option selected hidden disabled><%= user.gender %></option>
-                <option>Male</option>
-                <option>Female</option>
+                <option  <%= "Male" === user.gender ? "selected" : null %>>Male</option>
+                <option  <%= "Female" === user.gender ? "selected" : null %>>Female</option>
               </select>
             </div>
           </div>
