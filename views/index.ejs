@@ -70,7 +70,7 @@
             </tr>
           </thead>
           <tbody>
-            <% users.map((user, index) => { %>
+            <% if (users.length > 0) { %> <% users.map((user, index) => { %>
             <tr>
               <td scope="row"><%= index + 1 %></td>
               <td><%= user.firstName %> <%= user.lastName %></td>
@@ -97,7 +97,11 @@
                 >
                   <i class="bi bi-pencil"></i>
                 </a>
-                <form style="display: inline;" action="/edit/<%= user.id %>?_method=DELETE" method="post">
+                <form
+                  style="display: inline"
+                  action="/edit/<%= user.id %>?_method=DELETE"
+                  method="post"
+                >
                   <button
                     data-bs-toggle="tooltip"
                     data-bs-title="Delete user"
@@ -109,7 +113,11 @@
                 </form>
               </td>
             </tr>
-            <% }) %>
+            <% }) %> <% } else { %>
+            <tr>
+              <td colspan="7">No Data Here</td>
+            </tr>
+            <% } %>
           </tbody>
         </table>
       </section>

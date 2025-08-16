@@ -113,9 +113,9 @@
               <label for="inputCountry" class="form-label">Country:</label>
               <select id="inputCountry" class="form-select" name="country">
                 <option selected hidden disabled>Choose here ...</option>
-
-                <option>Morocco</option>
-                <option>Egypt</option>
+                <% countries.map((country) => { %>
+                  <option><%= country %></option>
+                <% }) %>
               </select>
             </div>
           </div>

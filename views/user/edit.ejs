@@ -125,8 +125,9 @@
               <select id="inputCountry" class="form-select">
                 <option selected hidden disabled><%= user.country %></option>
 
-                <option>Morocco</option>
-                <option>Egypt</option>
+                <% countries.map((country) => { %>
+                <option><%= country %></option>
+                <% }) %>
               </select>
             </div>
           </div>
@@ -191,10 +192,7 @@
               >
                 Close
               </button>
-              <form
-                action="/edit/<%= user._id %>?_method=DELETE"
-                method="post"
-              >
+              <form action="/edit/<%= user._id %>?_method=DELETE" method="post">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </div>
