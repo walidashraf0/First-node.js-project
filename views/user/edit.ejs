@@ -6,7 +6,7 @@
       rel="stylesheet"
       href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
     />
-    <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon" />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,14 +20,14 @@
 
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="../css/dark-light.css">
+    <link rel="stylesheet" href="../css/dark-light.css" />
 
     <!-- Custom styles for this template -->
     <link href="../css/sidebars.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/myStyle.css" />
   </head>
   <body>
-   <%- include('../Components/Darkmode.ejs')  %> 
+    <%- include('../Components/Darkmode.ejs') %>
 
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
       <symbol id="home" viewBox="0 0 16 16">
@@ -47,34 +47,32 @@
 
     <main class="d-flex flex-nowrap">
       <!-- Sidebar Componenet in EJS  -->
-      <%- include('../Components/Sidebar.ejs', { currentPage: "edit" })  %> 
+      <%- include('../Components/Sidebar.ejs', { currentPage: "edit" }) %>
 
       <section class="w-100">
-        <%- include('../Components/navbar.ejs')  %> 
+        <%- include('../Components/navbar.ejs') %>
 
-
-        <nav class="px-2 mt-4 d-flex flex-wrap justify-content-between" aria-label="breadcrumb">
+        <nav
+          class="px-2 mt-4 d-flex flex-wrap justify-content-between"
+          aria-label="breadcrumb"
+        >
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ali Hassan</li>
+            <li class="breadcrumb-item active" aria-current="page">
+              <%= user.firstName %> <%= user.lastName %>
+            </li>
           </ol>
 
-
-          <p class="me-md-5"> <span class="fw-medium fs-6">Id :</span> 6487021520bcf1af6319484c</p>
+          <p class="me-md-5">
+            <span class="fw-medium fs-6">Id :</span> <%= user.id %>
+          </p>
         </nav>
-
-
-
-
-
-
-
 
         <form class="mx-0 row gx-3 gy-4 mt-2">
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
-              placeholder="Ali..."
+              placeholder="<%= user.firstName %> "
               type="text"
               class="form-control"
               id="inputfirstName4"
@@ -83,7 +81,7 @@
           <div class="col-md-6">
             <label for="inputlastName4" class="form-label">Last Name:</label>
             <input
-              placeholder="Hassan..."
+              placeholder="<%= user.lastName %> "
               type="text"
               class="form-control"
               id="inputlastName4"
@@ -93,7 +91,7 @@
           <div class="col-md-6">
             <label for="inputemail4" class="form-label">Email:</label>
             <input
-              placeholder="ali@gmail.com"
+              placeholder="<%= user.email %> "
               type="email"
               class="form-control"
               id="inputemail4"
@@ -102,7 +100,7 @@
           <div class="col-md-6">
             <label for="inputtele4" class="form-label">Telephone:</label>
             <input
-              placeholder="011987899"
+              placeholder="<%= user.phoneNumber %> "
               type="number"
               class="form-control"
               id="inputtele4"
@@ -113,7 +111,7 @@
             <div class="col-md-6">
               <label for="inputage4" class="form-label">Age:</label>
               <input
-                placeholder="Your Age: ..."
+                placeholder="Your Age: <%= user.age %> "
                 type="number"
                 class="form-control"
                 id="inputage4"
@@ -125,7 +123,7 @@
             <div class="col-md-6">
               <label for="inputCountry" class="form-label">Country:</label>
               <select id="inputCountry" class="form-select">
-                <option selected hidden disabled>Choose here ...</option>
+                <option selected hidden disabled><%= user.country %></option>
 
                 <option>Morocco</option>
                 <option>Egypt</option>
@@ -137,7 +135,7 @@
             <div class="col-md-6">
               <label for="inputGender" class="form-label">Gender:</label>
               <select id="inputGender" class="form-select">
-                <option selected hidden disabled>Choose here ...</option>
+                <option selected hidden disabled><%= user.gender %></option>
                 <option>Male</option>
                 <option>Female</option>
               </select>
@@ -154,7 +152,7 @@
               type="button"
               class="btn btn-danger"
             >
-              Delete Customer
+              Delete <%= user.firstName %> <%= user.lastName %>
             </button>
           </div>
         </form>
@@ -172,7 +170,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Delete Customer
+                Delete <%= user.firstName %> <%= user.lastName %>
               </h1>
               <button
                 type="button"
@@ -181,7 +179,10 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">Are you sure you want to continue delete the customer?</div>
+            <div class="modal-body">
+              Are you sure you want to continue delete the <%= user.firstName %>
+              <%= user.lastName %> ?
+            </div>
             <div class="modal-footer">
               <button
                 type="button"
@@ -190,9 +191,12 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-danger">
-                Delete
-              </button>
+              <form
+                action="/edit/<%= user._id %>?_method=DELETE"
+                method="post"
+              >
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
             </div>
           </div>
         </div>

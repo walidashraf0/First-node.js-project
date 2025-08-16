@@ -7,6 +7,8 @@ app.use(express.static("public"));
 var moment = require("moment");
 app.set("view engine", "ejs");
 const User = require("./models/customerSchema");
+var methodOverride = require("method-override");
+app.use(methodOverride("_method"));
 
 // Auto Refresh
 const path = require("path");
@@ -47,15 +49,24 @@ app.get("/user/add.html", (req, res) => {
 });
 
 // GET Request
-app.get("/user/edit.html", (req, res) => {
-  res.render("user/edit", { root: __dirname });
+app.get("/edit/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((result) => {
+      res.render("user/edit", {
+        user: result,
+        moment: moment,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get("/user/search.html", (req, res) => {
   res.render("user/search", { root: __dirname });
 });
 
-app.get("/user/:id", (req, res) => {
+app.get("/view/:id", (req, res) => {
   User.findById(req.params.id)
     .then((result) => {
       res.render("user/view", {
@@ -95,6 +106,26 @@ app.post("/user/add.html", (req, res) => {
     });
 });
 
-// app.get("/index.html", (req, res) => {
-//   res.sendFile("./views/index.html", { root: __dirname });
+// DELETE REQUSEST
+app.delete("/edit/:id", (req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then((result) => {
+      res.redirect("/");
+      console.log(result)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// Another Way For DELETE REQUEST With deleteOne({Keyy: Value})
+// app.delete("/edit/:id", (req, res) => {
+//   User.deleteOne({ _id: req.params.id })
+//     .then((result) => {
+//       res.redirect("/");
+//       console.log(result)
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
 // });
